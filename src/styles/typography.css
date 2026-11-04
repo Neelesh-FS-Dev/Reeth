@@ -1,0 +1,67 @@
+@layer base {
+  /* Fluid type scale. Display: Fraunces. Body and UI: DM Sans. Script: Pinyon Script (sparingly). */
+
+  :root {
+    --face-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --face-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --face-script: 'Pinyon Script', 'Snell Roundhand', cursive;
+
+    --text-display-xl: clamp(2.75rem, 7vw, 6.5rem);
+    --text-display-lg: clamp(2.25rem, 5vw, 4.5rem);
+    --text-display-md: clamp(1.75rem, 3.4vw, 3rem);
+    --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--face-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: var(--fg);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-display-xl);
+    font-weight: 500;
+    line-height: 1.02;
+  }
+  h2 {
+    font-size: var(--text-display-lg);
+    font-weight: 500;
+  }
+  h3 {
+    font-size: var(--text-display-md);
+    font-weight: 500;
+    line-height: 1.15;
+  }
+
+  body {
+    font-family: var(--face-body);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--fg);
+    background-color: var(--bg);
+  }
+
+  .script {
+    font-family: var(--face-script);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.1;
+  }
+
+  /* Used for scroll-reveal line masks: each line is clipped, then slides up. */
+  .line-mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em;
+  }
+  .line-mask > span {
+    display: inline-block;
+  }
+
+}

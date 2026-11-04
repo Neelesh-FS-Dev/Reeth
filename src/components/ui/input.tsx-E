@@ -1,0 +1,26 @@
+import { forwardRef, type InputHTMLAttributes, type TextareaHTMLAttributes, type SelectHTMLAttributes } from 'react'
+import { cn } from '../../lib/utils'
+
+const fieldBase =
+  'w-full rounded-2xl border border-fg/20 bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted/70 min-h-11 transition-colors focus:border-accent aria-[invalid=true]:border-ember'
+
+export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+  ({ className, ...props }, ref) => <input ref={ref} className={cn(fieldBase, className)} {...props} />,
+)
+Input.displayName = 'Input'
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement>>(
+  ({ className, ...props }, ref) => (
+    <textarea ref={ref} className={cn(fieldBase, 'min-h-28 resize-y', className)} {...props} />
+  ),
+)
+Textarea.displayName = 'Textarea'
+
+export const NativeSelect = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSelectElement>>(
+  ({ className, children, ...props }, ref) => (
+    <select ref={ref} className={cn(fieldBase, 'appearance-auto', className)} {...props}>
+      {children}
+    </select>
+  ),
+)
+NativeSelect.displayName = 'NativeSelect'

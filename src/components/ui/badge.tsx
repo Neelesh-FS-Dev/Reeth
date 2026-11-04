@@ -1,0 +1,27 @@
+import type { HTMLAttributes } from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '../../lib/utils'
+
+const badgeVariants = cva(
+  'inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium uppercase tracking-[0.12em]',
+  {
+    variants: {
+      tone: {
+        neutral: 'bg-fg/8 text-fg',
+        accent: 'bg-accent/15 text-accent-strong',
+        success: 'bg-emerald-700/15 text-emerald-900',
+        warning: 'bg-brand-saffron/25 text-brand-ink',
+        danger: 'bg-brand-ember/15 text-brand-ember',
+      },
+    },
+    defaultVariants: { tone: 'neutral' },
+  },
+)
+
+export function Badge({
+  className,
+  tone,
+  ...props
+}: HTMLAttributes<HTMLSpanElement> & VariantProps<typeof badgeVariants>) {
+  return <span className={cn(badgeVariants({ tone }), className)} {...props} />
+}

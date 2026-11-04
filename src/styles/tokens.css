@@ -1,0 +1,61 @@
+/* Design tokens. Raw palette from the brand brief, semantic tokens on top.
+   Sections opt into the dark "Night" theme with data-theme="night". */
+
+:root {
+  /* Raw palette */
+  --color-navy: #1b3566;
+  --color-navy-deep: #0f213f;
+  --color-terracotta: #b4532f;
+  --color-saffron: #d9a441;
+  --color-cream: #f5eee1;
+  --color-paper: #fbf7ef;
+  --color-ink: #2a1b12;
+  --color-ember: #7a2e1a;
+  --color-muted: #6e5f53;
+
+  /* Semantic tokens (light, default) */
+  --bg: var(--color-cream);
+  --surface: var(--color-paper);
+  --fg: var(--color-ink);
+  --fg-muted: var(--color-muted);
+  --accent: var(--color-terracotta);
+  --accent-strong: var(--color-ember);
+  --accent-text: var(--color-ember);
+  --on-accent: #fffaf2;
+  --rule: var(--color-saffron);
+  --focus-ring: var(--color-ember);
+  --surface-dark: var(--color-navy-deep);
+
+  /* Layout */
+  --container-max: 1280px;
+  --gutter: 16px;
+  --section-space: clamp(64px, 10vw, 140px);
+  --radius-arch: 999px 999px 24px 24px;
+  --header-h: 72px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 40px;
+  }
+}
+
+[data-theme='night'] {
+  --bg: var(--color-navy-deep);
+  --surface: var(--color-navy);
+  --fg: var(--color-cream);
+  --fg-muted: #cfc5b4;
+  --accent: var(--color-saffron);
+  --accent-strong: #e8bc62;
+  --accent-text: var(--color-saffron);
+  --on-accent: var(--color-navy-deep);
+  --rule: var(--color-saffron);
+  --focus-ring: var(--color-saffron);
+  --surface-dark: var(--color-navy-deep);
+}

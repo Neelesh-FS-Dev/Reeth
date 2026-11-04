@@ -1,0 +1,153 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './typography.css';
+
+/* Map tokens into Tailwind utilities (bg-bg, text-fg, bg-accent, text-navy, ...). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+  --color-rule: var(--rule);
+  --color-surface-dark: var(--surface-dark);
+
+  --color-brand-navy: var(--color-navy);
+  --color-brand-navy-deep: var(--color-navy-deep);
+  --color-brand-terracotta: var(--color-terracotta);
+  --color-brand-saffron: var(--color-saffron);
+  --color-brand-cream: var(--color-cream);
+  --color-brand-paper: var(--color-paper);
+  --color-brand-ink: var(--color-ink);
+  --color-brand-ember: var(--color-ember);
+  --color-brand-muted: var(--color-muted);
+
+  --font-display: var(--face-display);
+  --font-body: var(--face-body);
+  --font-script: var(--face-script);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  body {
+    min-height: 100dvh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  img,
+  video,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+  ::selection {
+    background: var(--color-saffron);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section-space {
+    padding-block: var(--section-space);
+  }
+
+  /* Soft film grain, CSS-only, very low opacity. */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Block-print texture, 4 to 6 percent opacity, background only. */
+  .block-print {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23D9A441' stroke-width='1'%3E%3Cpath d='M0 32 Q16 16 32 32 T64 32'/%3E%3Cpath d='M0 0 Q16 16 32 0 T64 0'/%3E%3Ccircle cx='32' cy='32' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 64px 64px;
+    opacity: 0.05;
+  }
+
+  /* Jharokha-inspired arch frame. */
+  .arch {
+    border-radius: var(--radius-arch);
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    animation: marquee 28s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes tab-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  .tab-enter {
+    animation: tab-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .tab-enter {
+    animation: none;
+  }
+}
+
+@layer components {
+  /* Staggered mobile sheet links. Opacity and transform only. */
+  .sheet-link {
+    animation: tab-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-link {
+    animation: none;
+  }
+}
