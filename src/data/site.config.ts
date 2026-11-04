@@ -11,7 +11,9 @@ export const siteConfig = {
   locale: 'en_IN',
   /** Concept-sample ribbon. Flip to false before the pitch is sent. */
   showDemoBanner: true,
-  demoBannerText: 'Concept sample by [agency]', // PLACEHOLDER
+  demoBannerText: 'Concept sample by',
+  demoBannerLinkText: 'neeleshyadav.in',
+  demoBannerUrl: 'https://neeleshyadav.in/',
   phone: '+91 XXXXX XXXXX', // PLACEHOLDER
   phoneHref: 'tel:+91XXXXXXXXXX', // PLACEHOLDER
   email: 'hello@reeth.example', // PLACEHOLDER

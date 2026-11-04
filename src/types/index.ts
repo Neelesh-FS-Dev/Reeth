@@ -112,6 +112,8 @@ export interface Region {
   note: string
   /** Hex used for the tile's accent band. */
   tone: string
+  /** Key into the image manifest. */
+  image: string
 }
 
 export interface Value {

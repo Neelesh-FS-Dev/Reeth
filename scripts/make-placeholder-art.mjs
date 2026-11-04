@@ -5,7 +5,10 @@
 import { mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import sharp from 'sharp'
+import { createRequire } from 'node:module'
+
+// sharp is loaded through CommonJS: its ESM entry fails on current Node builds.
+const sharp = createRequire(import.meta.url)('sharp')
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const OUT = join(ROOT, 'media-src', 'images')

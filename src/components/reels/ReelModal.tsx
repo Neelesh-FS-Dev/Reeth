@@ -19,11 +19,22 @@ export function ReelModal({ reels, index, onIndexChange }: ReelModalProps) {
   const open = index !== null
   const reel = index !== null ? reels[index] : undefined
   const startY = useRef<number | null>(null)
+  const videoEl = useRef<HTMLVideoElement>(null)
 
   const step = (delta: number) => {
     if (index === null || reels.length === 0) return
     onIndexChange((index + delta + reels.length) % reels.length)
   }
+
+  // Opened from a click, so sound is allowed. If the browser still blocks it, fall back to muted.
+  useEffect(() => {
+    const v = videoEl.current
+    if (!v) return
+    v.play().catch(() => {
+      v.muted = true
+      void v.play()
+    })
+  }, [reel])
 
   useEffect(() => {
     if (!open) return
@@ -55,11 +66,13 @@ export function ReelModal({ reels, index, onIndexChange }: ReelModalProps) {
         {reel ? (
           <>
             <div className="relative flex min-h-0 flex-1 items-center justify-center p-3">
+              {/* Reels carry no spoken dialogue, so there are no caption tracks to attach. */}
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <video
+                ref={videoEl}
                 key={reel.id}
                 className="h-full max-h-full w-auto max-w-full rounded-2xl bg-black object-contain aspect-[9/16]"
                 autoPlay
-                muted
                 controls
                 playsInline
                 preload="metadata"

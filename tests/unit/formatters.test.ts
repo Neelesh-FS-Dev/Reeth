@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 import { formatEventDate, formatINR, formatTime } from '../../src/lib/formatters'
 import { upcomingEvents, findEvent } from '../../src/lib/events'
 import { events } from '../../src/data/events'
-import { canUse3D } from '../../src/lib/perf'
 
 describe('formatters', () => {
   it('formats rupees with Indian grouping and no decimals', () => {
@@ -37,13 +36,3 @@ describe('events helpers', () => {
   })
 })
 
-describe('canUse3D gating', () => {
-  const good = { width: 1440, reducedMotion: false, cores: 8, saveData: false }
-  it('allows the hero scene on a capable desktop', () => {
-    expect(canUse3D(good)).toBe(true)
-  })
-  it('blocks reduced motion', () => expect(canUse3D({ ...good, reducedMotion: true })).toBe(false))
-  it('blocks data saver', () => expect(canUse3D({ ...good, saveData: true })).toBe(false))
-  it('blocks devices with fewer than 4 cores', () => expect(canUse3D({ ...good, cores: 2 })).toBe(false))
-  it('blocks screens below 768px', () => expect(canUse3D({ ...good, width: 390 })).toBe(false))
-})

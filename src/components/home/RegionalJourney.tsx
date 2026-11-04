@@ -3,11 +3,12 @@ import { useGSAP } from '@gsap/react'
 import { gsap } from '../../animations/gsap'
 import { Section } from '../layout/Section'
 import { Container } from '../layout/Container'
+import { Picture } from '../brand/Picture'
 import { regions } from '../../data/regions'
 
 /**
- * States of India as tiles. Desktop (1024px+, motion allowed): the section pins and the track
- * scrubs horizontally. Everywhere else: a native scroll-snap carousel, no pinning.
+ * States of India as photo tiles. Desktop (1024px+, motion allowed): the section pins and the
+ * track scrubs horizontally. Everywhere else: a native scroll-snap carousel, no pinning.
  */
 export function RegionalJourney() {
   const ref = useRef<HTMLElement>(null)
@@ -56,13 +57,14 @@ export function RegionalJourney() {
         {regions.map((r, i) => (
           <li
             key={r.id}
-            className="relative flex w-[78vw] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[2rem] border border-rule/40 bg-surface p-7 sm:w-[46vw] md:w-[36vw] lg:w-[24vw] min-h-[360px] lg:min-h-[420px]"
+            className="relative flex w-[78vw] shrink-0 snap-start flex-col overflow-hidden rounded-[2rem] border border-rule/40 bg-surface sm:w-[46vw] md:w-[36vw] lg:w-[24vw]"
           >
-            <span className="absolute inset-x-0 top-0 h-2" style={{ background: r.tone }} aria-hidden="true" />
-            <span className="font-display text-7xl leading-none text-fg-muted" aria-hidden="true">
+            <Picture name={r.image} alt={`${r.state}: ${r.dish}`} aspect={4 / 3} sizes="(min-width: 1024px) 24vw, (min-width: 768px) 36vw, 78vw" className="rounded-none" />
+            <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: r.tone }} aria-hidden="true" />
+            <span className="absolute right-5 top-4 font-display text-4xl leading-none text-brand-cream drop-shadow" aria-hidden="true">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <div>
+            <div className="flex flex-1 flex-col p-6">
               <p className="text-sm uppercase tracking-[0.16em] text-fg-muted">{r.state}</p>
               <h3 className="mt-2 text-3xl">{r.dish}</h3>
               <p className="mt-3 text-fg-muted">{r.note}</p>

@@ -15,12 +15,12 @@ describe('ReelModal keyboard handling', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
-  it('shows the reel at the given index with a muted, controlled video', () => {
+  it('shows the reel at the given index with a controlled video with sound', () => {
     render(<ReelModal reels={reels} index={1} onIndexChange={() => {}} />)
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText('Second reel', { selector: 'span.block' })).toBeInTheDocument()
     const video = document.querySelector('video')!
-    expect(video.muted).toBe(true)
+    expect(video.muted).toBe(false)
     expect(video.controls).toBe(true)
   })
 

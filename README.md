@@ -2,7 +2,7 @@
 
 A sales-pitch sample for **Reeth**, a restaurant and bar in Baner, Pune ("Spice & Spirit").
 Built with React 19, Vite 8, TypeScript, Tailwind CSS v4, Radix UI, GSAP with ScrollTrigger,
-Lenis, and Three.js (lazy-loaded). Forms use react-hook-form with zod, and submission is mocked.
+Lenis, and the owner's photos and reel videos. Forms use react-hook-form with zod, and submission is mocked.
 
 ## Setup
 
@@ -28,11 +28,11 @@ Requirements: Node 22 or later, pnpm 10 or later, and ffmpeg (only for regenerat
   `gallery.ts`, `team.ts`, `roles.ts`, `packages.ts`, `highlights.ts`, `regions.ts`, `about.ts`,
   `copy.ts`, `placeholders.ts`). Components do not hard-code business facts.
 - `src/components/`: `ui/` (shadcn-style primitives on Radix), `layout/`, `brand/`, `home/`,
-  `menu/`, `events/`, `reels/`, `gallery/`, `about/`, `catering/`, `careers/`, `contact/`, `three/`.
+  `menu/`, `events/`, `reels/`, `gallery/`, `about/`, `catering/`, `careers/`, `contact/`.
 - `src/animations/`: GSAP registration, Lenis bridge, and the reveal, counter, parallax,
   magnetic, and hero-entrance hooks.
 - `src/lib/`: validators (zod), formatters (INR, IST dates), mocked `submitEnquiry`, SEO and
-  JSON-LD, the 3D capability gate, and the image manifest helpers.
+  JSON-LD, and the image manifest helpers.
 - `media-src/`: source originals (placeholder artwork and reel clips). Not shipped.
 - `public/`: derivatives that ship (`images/`, `video/`, `favicon.svg`, `robots.txt`,
   `sitemap.xml` generated from the route list).
@@ -66,10 +66,7 @@ section). Loaded from Google Fonts with `display=swap`. Display sizes use `clamp
 - Framer Motion is not used. Tab and sheet transitions are CSS keyframes, which keeps the
   dependency count down.
 
-**3D.** One `three` orb (`src/components/three/HeroScene.tsx`) sits on the corner of the hero arch.
-It loads with `React.lazy` after first paint. It renders only when all of these hold: no reduced
-motion, no data saver, at least 4 CPU cores, at least 768px wide, and on-screen (IntersectionObserver
-pauses the frame loop). DPR is capped at 1.5. The gate is `canUse3D` in `src/lib/perf.ts`, with unit tests.
+**Hero media.** The hero is a split layout: copy on the left and a vertical reel on the right (`src/components/home/HeroVideo.tsx`). The reel loops muted while it is on screen, pauses off screen, and has play/pause and sound buttons. Three.js was removed at the owner's request, along with its packages.
 
 **Forms.** `react-hook-form` with `zodResolver`, `aria-invalid` and `aria-describedby` wired per
 field, and focus on the first invalid field on submit. `submitEnquiry()` in `src/lib/api.ts` resolves
@@ -82,7 +79,7 @@ non-veg mark. Category tabs, filter chips, and tag badges were removed at the ow
 
 **Night section.** `data-theme="night"` on the hero, events, about states, footer, and reserve band.
 
-**Reduced motion.** `prefers-reduced-motion` disables the marquee, parallax, pinning, the 3D scene,
+**Reduced motion.** `prefers-reduced-motion` disables the marquee, parallax, pinning, the hero video autoplay,
 the page fade. Opacity fades remain.
 
 ## Deviations from the brief
@@ -100,7 +97,7 @@ the page fade. Opacity fades remain.
 | Line-by-line text split | Lines are defined manually in `copy.ts` | Measuring line breaks is brittle across fonts |
 | Route transition: wipe | Opacity fade-in only | Owner feedback |
 | Focus ring saffron | Ember on light, saffron on Night | Contrast (above) |
-| Hero: full-bleed image and orb | Arch-framed photo and a small contained orb | Owner feedback on the hero design |
+| Hero: 3D orb | Removed; the hero shows a reel video instead | Owner feedback |
 
 ## Pending client details (PLACEHOLDER)
 
@@ -138,7 +135,7 @@ Each of these is marked `PLACEHOLDER` in code. Search for the marker to find the
 ## Removing the demo banner
 
 Set `showDemoBanner: false` in `src/data/site.config.ts`. The ribbon is `src/components/layout/DemoBanner.tsx`,
-which renders nothing when the flag is off. The text is `demoBannerText`.
+which renders nothing when the flag is off. The text is `demoBannerText`, and the link is `demoBannerLinkText` (`demoBannerUrl`, currently https://neeleshyadav.in/).
 
 ## Verification
 
@@ -146,7 +143,7 @@ Run on the final build (`pnpm build`, then Playwright against `pnpm preview`):
 
 - **Static checks.** `pnpm typecheck`: passes. `pnpm lint`: zero errors and zero warnings.
 - **Unit and component tests.** `pnpm test`: 47 passed. These cover validators, formatters,
-  event helpers, the 3D gate, WCAG contrast for the brand pairs, the reel modal (arrow keys,
+  event helpers, WCAG contrast for the brand pairs, the reel modal (arrow keys,
   Escape, muted controlled video), and the reservation form (errors linked by `aria-describedby`,
   event prefill).
 - **E2E.** `pnpm test:e2e`: 73 passed, 1 skipped, across Chromium and WebKit. The skip is the
@@ -168,8 +165,7 @@ Run on the final build (`pnpm build`, then Playwright against `pnpm preview`):
   Tap targets: undersized targets are listed in the console output rather than failing the run.
   Several text links are shorter than 44px.
 - **Performance (measured, not Lighthouse).** First-load JavaScript (entry and preloads) is
-  170.5 KB gzipped, under the 180 KB budget. The Three.js chunk is about 240 KB gzipped and loads
-  only with the hero scene. Lighthouse scores have not been measured yet.
+  170.5 KB gzipped, under the 180 KB budget. Three.js has been removed. Lighthouse scores have not been measured yet.
 - **Not verified.** Lighthouse. Firefox (not in the Playwright config). Real device testing. Phone
   landscape (844 by 390) has not been captured.
 
@@ -179,6 +175,5 @@ Run on the final build (`pnpm build`, then Playwright against `pnpm preview`):
   real business content.
 - Forms are mocked. Nothing is sent, stored, or emailed.
 - The interactive map is a placeholder card, not a live embed.
-- The mobile hero orb is disabled below 768px.
 - The menu has no category or diet filtering, by owner request.
 - Lighthouse, Firefox, and phone-landscape verification are still open.

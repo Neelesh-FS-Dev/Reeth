@@ -1,17 +1,13 @@
-import { lazy, Suspense, useRef } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../ui/button'
-import { Picture } from '../brand/Picture'
-import { BlockPrint } from '../brand/Motif'
+import { HeroVideo } from './HeroVideo'
 import { useHeroEntrance } from '../../animations/useHeroEntrance'
 import { useMagnetic } from '../../animations/useMagnetic'
-import { usePerformance3D } from '../../hooks/usePerformance'
 import { useFinePointer } from '../../hooks/useIsTouch'
 import { heroCopy } from '../../data/copy'
 import { siteConfig } from '../../data/site.config'
-
-// The 3D moment loads after first paint and only on capable devices.
-const HeroScene = lazy(() => import('../three/HeroScene'))
+import { reels } from '../../data/reels'
 
 const facts = [
   { label: 'Find us', value: `${siteConfig.address.area}, ${siteConfig.address.city}` },
@@ -20,17 +16,16 @@ const facts = [
 ]
 
 /**
- * Night hero. Left: the headline and the two calls to action, then three quiet facts.
- * Right: a jharokha arch holding the photograph, with a small saffron orb resting on its corner.
- * Stacks on phones: arch first, copy below.
+ * Split hero. Copy on the left (headline, calls to action, facts); a vertical reel on the right.
+ * On phones the copy comes first and the video follows.
  */
 export function Hero() {
   const ref = useRef<HTMLElement>(null)
   const primary = useRef<HTMLAnchorElement>(null)
-  const enable3D = usePerformance3D()
   const fine = useFinePointer()
   useHeroEntrance(ref)
   useMagnetic(primary, fine)
+  const reel = reels.find((r) => r.id === 'reel-04') ?? reels[0]
 
   return (
     <section
@@ -39,23 +34,22 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="relative isolate overflow-hidden bg-bg text-fg"
     >
-      <BlockPrint />
-      <div className="container-x grid min-h-[100svh] items-center gap-14 pb-16 pt-28 lg:grid-cols-12 lg:gap-10 lg:pb-24 lg:pt-32">
-        <div className="order-1 lg:order-1 lg:col-span-6">
+      <div className="container-x grid min-h-[calc(100svh-var(--header-h))] items-center gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-10">
+        <div className="order-1 lg:order-1 lg:col-span-7">
           <p className="script text-4xl text-accent-text md:text-5xl" data-hero-sub>
             Spice &amp; Spirit
           </p>
-          <h1 id="hero-title" className="mt-5 max-w-[11ch] text-[clamp(3rem,7.4vw,6.25rem)] leading-[0.98]">
+          <h1 id="hero-title" className="mt-4 max-w-[12ch] text-[clamp(3rem,7vw,6.25rem)] leading-[0.98]">
             {heroCopy.headline.map((line, i) => (
               <span key={line} className="line-mask block">
                 <span className={i === 1 ? 'italic text-accent-text' : undefined}>{line}</span>
               </span>
             ))}
           </h1>
-          <p className="mt-7 max-w-md text-lg text-fg-muted md:text-xl" data-hero-sub>
+          <p className="mt-6 max-w-xl text-lg text-fg-muted md:text-xl" data-hero-sub>
             {heroCopy.sub}
           </p>
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild size="lg">
               <Link to="/contact" ref={primary} data-hero-cta>
                 {heroCopy.primaryCta}
@@ -67,7 +61,7 @@ export function Hero() {
               </Link>
             </Button>
           </div>
-          <dl className="mt-14 grid max-w-md grid-cols-3 gap-4 border-t border-rule/30 pt-6" data-hero-sub>
+          <dl className="mt-12 grid max-w-2xl grid-cols-3 gap-4 border-t border-rule/30 pt-6" data-hero-sub>
             {facts.map((f) => (
               <div key={f.label}>
                 <dt className="text-xs uppercase tracking-[0.16em] text-fg-muted">{f.label}</dt>
@@ -77,26 +71,8 @@ export function Hero() {
           </dl>
         </div>
 
-        <div className="relative order-2 mx-auto w-full max-w-md lg:order-2 lg:col-span-5 lg:col-start-8">
-          <div data-hero-arch className="arch relative border border-rule/50 bg-surface">
-            <Picture
-              name={heroCopy.image}
-              alt={heroCopy.imageAlt}
-              aspect={4 / 5}
-              sizes="(min-width: 1024px) 40vw, 90vw"
-              priority
-              className="h-full w-full"
-              imgClassName="h-full w-full object-cover"
-            />
-            <div aria-hidden="true" className="pointer-events-none absolute inset-3 arch border border-rule/45" />
-          </div>
-          {enable3D ? (
-            <div className="absolute -bottom-10 left-2 size-[200px] md:size-[260px] lg:-left-10">
-              <Suspense fallback={null}>
-                <HeroScene />
-              </Suspense>
-            </div>
-          ) : null}
+        <div className="order-2 lg:order-2 lg:col-span-4 lg:col-start-9" data-hero-arch>
+          <HeroVideo reel={reel} />
         </div>
       </div>
     </section>

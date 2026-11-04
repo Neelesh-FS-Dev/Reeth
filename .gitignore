@@ -28,3 +28,9 @@ coverage
 playwright-report
 test-results
 *.tsbuildinfo
+
+# Owner-supplied raw media (large originals, kept local)
+media-src/raw/
+
+# Transcode inputs for reels (the outputs in public/video are committed)
+media-src/video-originals/

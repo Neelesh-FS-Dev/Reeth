@@ -12,7 +12,6 @@ export function useHeroEntrance(scope: RefObject<HTMLElement | null>) {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
       tl.from('.line-mask > span', { yPercent: 110, duration: 1.0, stagger: 0.12 })
-        .from('[data-hero-arch]', { opacity: 0, y: 40, duration: 1.2 }, 0)
         .from('[data-hero-sub]', { opacity: 0, y: 16, duration: 0.8 }, '-=0.5')
         .from('[data-hero-cta]', { opacity: 0, y: 14, stagger: 0.1, duration: 0.6 }, '-=0.5')
     },
