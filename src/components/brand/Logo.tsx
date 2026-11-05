@@ -7,7 +7,7 @@ export interface LogoProps {
 }
 
 /**
- * Placeholder roundel until the real logo file arrives. Light variant is for light surfaces,
+ * Placehlder roundel until the real logo file arrives. Light variant is for light surfaces,
  * dark variant for night sections. Replace the SVG body here to swap in the final mark.
  */
 export function Logo({ variant = 'light', size = 48, className }: LogoProps) {

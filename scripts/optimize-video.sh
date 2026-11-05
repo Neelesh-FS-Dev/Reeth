@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
-# Transcodes reels to H.264 MP4 and VP9 WebM (max 720x1280, about 1.5 Mbps), plus a JPEG poster per clip.
-# Clips are capped at 60 seconds.
+# Transcodes reels to H.264 MP4 (540x960, first 20 seconds, about 800 kbps) plus a JPEG poster per clip.
+# Every current browser plays H.264, so no WebM is produced. Three clips encode in parallel.
 # Usage: scripts/optimize-video.sh [source_dir] [out_dir]
-# Requires ffmpeg. Source files: .mp4 .mov .webm in source_dir. Output names are <name>.mp4/.webm/-poster.jpg.
 set -euo pipefail
 
 SRC="${1:-media-src/video-originals}"
 OUT="${2:-public/video}"
 mkdir -p "$OUT"
 
-shopt -s nullglob
-for input in "$SRC"/*.{mp4,mov,webm}; do
+encode() {
+  local input="$1" out="$2" name
   name="$(basename "${input%.*}")"
-  echo "Transcoding $name"
-
-  ffmpeg -y -loglevel error -i "$input" \
-    -vf "scale='min(720,iw)':'min(1280,ih)':force_original_aspect_ratio=decrease,pad=ceil(iw/2)*2:ceil(ih/2)*2" \
-    -c:v libx264 -preset slow -crf 28 -maxrate 1500k -bufsize 3000k -pix_fmt yuv420p \
-    -t 60 -an -movflags +faststart "$OUT/$name.mp4"
-
-  ffmpeg -y -loglevel error -i "$input" \
-    -vf "scale='min(720,iw)':'min(1280,ih)':force_original_aspect_ratio=decrease" \
-    -t 60 -c:v libvpx-vp9 -b:v 0 -crf 38 -row-mt 1 -an "$OUT/$name.webm"
-
+  ffmpeg -y -loglevel error -i "$input" -t 20 \
+    -vf "scale='min(540,iw)':'min(960,ih)':force_original_aspect_ratio=decrease,pad=ceil(iw/2)*2:ceil(ih/2)*2" \
+    -c:v libx264 -preset fast -crf 30 -maxrate 800k -bufsize 1600k -pix_fmt yuv420p \
+    -an -movflags +faststart "$out/$name.mp4"
   ffmpeg -y -loglevel error -ss 00:00:01 -i "$input" -frames:v 1 \
-    -vf "scale='min(720,iw)':'min(1280,ih)':force_original_aspect_ratio=decrease" \
-    -q:v 3 "$OUT/$name-poster.jpg"
+    -vf "scale='min(540,iw)':'min(960,ih)':force_original_aspect_ratio=decrease" \
+    -q:v 4 "$out/$name-poster.jpg"
+  echo "done $name"
+}
+
+shopt -s nullglob
+for input in "$SRC"/*.mp4; do
+  encode "$input" "$OUT" &
+  while [ "$(jobs -rp | wc -l)" -ge 3 ]; do sleep 1; done
 done
-echo "Done. Output in $OUT"
+wait
+echo "All reels encoded to $OUT"

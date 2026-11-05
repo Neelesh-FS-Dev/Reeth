@@ -125,7 +125,7 @@ Each of these is marked `PLACEHOLDER` in code. Search for the marker to find the
    768, 1200, and 1800px) are written to `public/images/`. The names are listed in
    `scripts/make-placeholder-art.mjs`. `src/data/placeholders.ts` has the search query for each one.
 2. **Reels.** Put footage in `media-src/video-originals/` (named `reel-1.mp4` and so on) and run
-   `scripts/optimize-video.sh`. This writes H.264 MP4, VP9 WebM, and a JPEG poster to `public/video/`.
+   `scripts/optimize-video.sh`. This writes H.264 MP4, MP4 only, and a JPEG poster to `public/video/`.
    Then update titles and dates in `src/data/reels.ts`.
 3. **Text and facts.** Edit `src/data/*.ts`. `src/data/site.config.ts` holds contact details, hours,
    and the social links.

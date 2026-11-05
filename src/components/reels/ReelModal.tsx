@@ -79,7 +79,6 @@ export function ReelModal({ reels, index, onIndexChange }: ReelModalProps) {
                 poster={reel.poster}
                 aria-label={reel.title}
               >
-                <source src={reel.webm} type="video/webm" />
                 <source src={reel.src} type="video/mp4" />
               </video>
             </div>

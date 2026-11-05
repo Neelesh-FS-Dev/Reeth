@@ -46,7 +46,6 @@ export function HeroVideo({ reel, className, arch }: { reel: ReelItem; className
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         >
-          <source src={reel.webm} type="video/webm" />
           <source src={reel.src} type="video/mp4" />
         </video>
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-brand-navy-deep/90 to-transparent p-4 pt-14">

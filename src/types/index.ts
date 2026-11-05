@@ -54,7 +54,6 @@ export interface ReelItem {
   date: string
   /** Video files live in public/video/. */
   src: string
-  webm: string
   poster: string
 }
 

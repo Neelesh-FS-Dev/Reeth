@@ -68,7 +68,6 @@ export function ReelPlayer({ reel, children }: { reel: ReelItem; children?: Reac
         onPause={() => setPlaying(false)}
         aria-label={reel.title}
       >
-        <source src={reel.webm} type="video/webm" />
         <source src={reel.src} type="video/mp4" />
       </video>
 
