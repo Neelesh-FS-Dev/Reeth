@@ -34,3 +34,14 @@ media-src/raw/
 
 # Transcode inputs for reels (the outputs in public/video are committed)
 media-src/video-originals/
+
+# Vercel CLI local project link
+.vercel
+
+# Environment files (secrets). Keep the example template tracked.
+.env
+.env.*
+!.env.example
+
+# Scratch scripts and throwaway output from local debugging
+scripts/_*
