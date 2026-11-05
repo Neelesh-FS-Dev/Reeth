@@ -4,8 +4,6 @@
   "installCommand": "npx -y pnpm@10.34.9 install --frozen-lockfile",
   "buildCommand": "pnpm build",
   "outputDirectory": "dist",
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/(.*)",
