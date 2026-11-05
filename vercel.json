@@ -8,7 +8,7 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/((?!assets/|images/|video/|favicon\\.svg|robots\\.txt|sitemap\\.xml).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
