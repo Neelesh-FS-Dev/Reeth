@@ -34,6 +34,18 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="relative isolate overflow-hidden bg-bg text-fg"
     >
+      {/* Decorative backdrop on the navy base: a faint saffron geometric lattice, a soft saffron glow, film grain. */}
+      <div aria-hidden="true" className="grain pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.1] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cpath d='M36 4 L68 36 L36 68 L4 36 Z M36 18 L54 36 L36 54 L18 36 Z' fill='none' stroke='%23d9a441' stroke-width='1'/%3E%3Ccircle cx='36' cy='36' r='2.5' fill='%23d9a441'/%3E%3C/svg%3E\")",
+            backgroundSize: '72px 72px',
+          }}
+        />
+        <div className="absolute -right-32 top-1/4 size-[38rem] rounded-full bg-[radial-gradient(closest-side,var(--color-saffron),transparent)] opacity-[0.12] blur-3xl" />
+      </div>
       <div className="container-x grid min-h-[calc(100svh-var(--header-h))] items-center gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-10">
         <div className="order-1 lg:order-1 lg:col-span-7">
           <p className="script text-4xl text-accent-text md:text-5xl" data-hero-sub>
@@ -72,7 +84,7 @@ export function Hero() {
         </div>
 
         <div className="order-2 lg:order-2 lg:col-span-4 lg:col-start-9" data-hero-arch>
-          <HeroVideo reel={reel} />
+          <HeroVideo reel={reel} arch />
         </div>
       </div>
     </section>

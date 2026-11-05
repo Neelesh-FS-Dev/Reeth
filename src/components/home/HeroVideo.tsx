@@ -10,7 +10,7 @@ import { cn } from '../../lib/utils'
  * Pauses off screen. Reduced motion starts paused on the poster frame; the play button still works.
  * The sound button turns sound on for the viewer's own choice.
  */
-export function HeroVideo({ reel, className }: { reel: ReelItem; className?: string }) {
+export function HeroVideo({ reel, className, arch }: { reel: ReelItem; className?: string; arch?: boolean }) {
   const frame = useRef<HTMLDivElement>(null)
   const video = useRef<HTMLVideoElement>(null)
   const visible = useInView(frame)
@@ -31,7 +31,7 @@ export function HeroVideo({ reel, className }: { reel: ReelItem; className?: str
 
   return (
     <figure ref={frame} className={cn('relative mx-auto w-full max-w-[340px]', className)}>
-      <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem] border border-rule/40 bg-surface shadow-2xl">
+      <div className={cn('relative aspect-[9/16] overflow-hidden border border-rule/40 bg-surface shadow-2xl', arch ? 'rounded-[var(--radius-arch)]' : 'rounded-[2rem]')}>
         {/* Reels carry no spoken dialogue, so there are no caption tracks to attach. */}
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
